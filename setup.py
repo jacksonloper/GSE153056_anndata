@@ -1,19 +1,5 @@
 from setuptools import setup
 
-def pull_first():
-    import os
-    import git
-    cwd = os.getcwd()
-    gitdir = os.path.dirname(os.path.realpath(__file__))
-    os.chdir(gitdir)
-    g = git.cmd.Git(gitdir)
-    try:
-        g.execute(['git', 'lfs', 'pull'])
-    except git.exc.GitCommandError:
-        raise RuntimeError("Make sure git-lfs is installed!")
-    os.chdir(cwd)
-pull_first()
-
 setup(
     name='GSE153056_anndata',
     author='',
@@ -27,6 +13,20 @@ setup(
         '': ['*.hdf5']
     },
     install_requires=[
-        'gitpython'
+        'GitPython'
     ]
 )
+
+def pull_first():
+    import os
+    import git
+    cwd = os.getcwd()
+    gitdir = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(gitdir)
+    g = git.cmd.Git(gitdir)
+    try:
+        g.execute(['git', 'lfs', 'pull'])
+    except git.exc.GitCommandError:
+        raise RuntimeError("Make sure git-lfs is installed!")
+    os.chdir(cwd)
+pull_first()
